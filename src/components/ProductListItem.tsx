@@ -1,4 +1,5 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Link } from 'expo-router';
 
 interface ProductListItemProps {
   id: number;
@@ -8,13 +9,17 @@ interface ProductListItemProps {
 }
 const defaultImage = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
-export function ProductListItem({ image, name, price }: ProductListItemProps) {
+export function ProductListItem({ id, image, name, price }: ProductListItemProps) {
   return (
-    <View style={styles.container} >
-      <Image style={styles.image} source={{ uri: image || defaultImage }} resizeMode='contain'/>
-      <Text style={styles.productName}>{name}</Text>
-      <Text style={styles.price}>${price}</Text>
-    </View>
+    <Link href={`/menu/${id}`} asChild>
+      <Pressable style={styles.container} >
+        <Image style={styles.image} source={{ uri: image || defaultImage }} resizeMode='contain' />
+        <View>
+          <Text style={styles.productName}>{name}</Text>
+          <Text style={styles.price}>${price}</Text>
+        </View>
+      </Pressable>
+    </Link>
   );
 }
 
@@ -23,6 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     maxWidth: '50%',
+    justifyContent: 'space-between',
     padding: 10,
     borderRadius: 10,
   },
@@ -33,7 +39,7 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 20,
     fontWeight: '600',
-    marginHorizontal: 10,
+    marginVertical: 10,
   },
   price: {
     fontWeight: 'bold',
