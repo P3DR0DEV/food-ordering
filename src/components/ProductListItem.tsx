@@ -1,5 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
+import { defaultImage } from '@/constants/Links';
 
 interface ProductListItemProps {
   id: number;
@@ -7,7 +8,6 @@ interface ProductListItemProps {
   name: string;
   price: number;
 }
-const defaultImage = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
 export function ProductListItem({ id, image, name, price }: ProductListItemProps) {
   return (

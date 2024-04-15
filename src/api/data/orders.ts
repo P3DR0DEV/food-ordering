@@ -1,7 +1,7 @@
 import { products } from './products';
 import dayjs from 'dayjs';
 
-type Product = {
+export type Product = {
   id: number;
   image: string | null;
   name: string;
