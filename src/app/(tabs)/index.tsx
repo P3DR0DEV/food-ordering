@@ -8,8 +8,8 @@ export default function MenuScreen() {
       data={products}
       renderItem={({ item }) => (<ProductListItem key={item.id} {...item} />)}
       numColumns={2}
-      columnWrapperClassName='gap-2.5'
-      contentContainerClassName='gap-2.5 p-2.5'
+      columnWrapperStyle={{gap: 10}}
+      contentContainerStyle={{gap: 10, padding: 10}}
     />
   );
 }
