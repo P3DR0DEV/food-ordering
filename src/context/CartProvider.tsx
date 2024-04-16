@@ -10,9 +10,10 @@ type CartContext = {
   onAddItem: (product: Product, size: CartItem['size']) => void,
   onRemoveItem: (productId: string) => void
   onUpdateItem: (productId: string, quantity: -1 | 1) => void
+  clearCart: () => void
 }
 
-export const CartContext = createContext<CartContext>({ items: [], onAddItem: () => {}, onRemoveItem: () => {}, onUpdateItem: () => {}});
+export const CartContext = createContext<CartContext>({ items: [], onAddItem: () => {}, onRemoveItem: () => {}, onUpdateItem: () => {}, clearCart: () => {} });
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -33,8 +34,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     setItems([...items, newCartItem])
-    console.log({newCartItem})
   }
+
+  const clearCart = () => setItems([])
 
   const onUpdateItem = (productId: string, quantity: -1 | 1) => {
     const updatedItems = items.map(item => {
@@ -62,7 +64,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems(removedItem ? [...items] : [])
   }
   return (
-    <CartContext.Provider value={{items, onAddItem, onRemoveItem, onUpdateItem}}>
+    <CartContext.Provider value={{items, onAddItem, onRemoveItem, onUpdateItem, clearCart}}>
       {children}
     </CartContext.Provider>
   )
