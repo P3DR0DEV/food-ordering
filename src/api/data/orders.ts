@@ -1,35 +1,7 @@
+import { Order } from '@/types';
 import { products } from './products';
 import dayjs from 'dayjs';
 
-export type Product = {
-  id: number;
-  image: string | null;
-  name: string;
-  price: number;
-};
-
-type PizzaSize = 'S' | 'M' | 'L' | 'XL';
-
-export type OrderItem = {
-  id: number;
-  product_id: number;
-  products: Product;
-  order_id: number;
-  size: PizzaSize;
-  quantity: number;
-};
-
-type OrderStatus = 'New' | 'Cooking' | 'Delivering' | 'Delivered';
-
-type Order = {
-  id: number;
-  created_at: string;
-  total: number;
-  user_id: string;
-  status: OrderStatus;
-
-  order_items?: OrderItem[];
-};
 const now = dayjs();
 
 const orders: Order[] = [

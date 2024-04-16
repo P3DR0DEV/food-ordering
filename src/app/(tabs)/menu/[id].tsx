@@ -1,19 +1,31 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Alert, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { products } from "@/api/data/products";
 import NotFoundScreen from "@/app/+not-found";
 import { defaultImage } from "@/constants/Links";
 import { useState } from "react";
+import { Button } from "@/components/Button";
+import { useCart } from "@/context/CartProvider";
+import { PizzaSize } from "@/types";
 
-const sizes = ['S', 'M', 'L', 'XL']
+const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
 
-type Sizes = 'S' | 'M' | 'L' | 'XL'
 
 export default function Product() {
   const { id } = useLocalSearchParams()
-  const [selectedSize, setSelectedSize] = useState<Sizes>('M')
+  const [selectedSize, setSelectedSize] = useState<PizzaSize>('M')
+  const {onAddItem} = useCart()
+
+  const router = useRouter()
 
   const product = products.find(product => product.id.toString() === id)
+
+  function addToCart() {
+
+    if (!product) return 
+    onAddItem(product, selectedSize)
+    router.push('/cart')
+  }
 
   return (
     <View style={styles.container}>
@@ -26,13 +38,14 @@ export default function Product() {
           <View style={styles.sizesContainer}>
 
           {sizes.map((size) => (
-            <Pressable onPress={() => setSelectedSize(size as Sizes)} key={size} style={[styles.sizesView, { backgroundColor: selectedSize === size ? 'gainsboro' : 'white' }]}>
+            <Pressable onPress={() => setSelectedSize(size)} key={size} style={[styles.sizesView, { backgroundColor: selectedSize === size ? 'gainsboro' : 'white' }]}>
               <Text style={[styles.sizeText, { color: selectedSize === size ? 'black' : 'gray' }]}>{size}</Text>
             </Pressable>
             )
             )}
             </View>
           <Text style={styles.price}>${product.price}</Text>
+          <Button text="Add to cart" onPress={addToCart} />
         </>
       }
       {!product && <NotFoundScreen />}
@@ -70,5 +83,6 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginTop: 'auto'
   }
 })
