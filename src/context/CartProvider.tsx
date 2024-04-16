@@ -11,12 +11,19 @@ type CartContext = {
   onRemoveItem: (productId: string) => void
   onUpdateItem: (productId: string, quantity: -1 | 1) => void
   clearCart: () => void
+  calculateTotalValue: () => number
 }
 
-export const CartContext = createContext<CartContext>({ items: [], onAddItem: () => {}, onRemoveItem: () => {}, onUpdateItem: () => {}, clearCart: () => {} });
+export const CartContext = createContext<CartContext>({ items: [], onAddItem: () => {}, onRemoveItem: () => {}, onUpdateItem: () => {}, clearCart: () => {}, calculateTotalValue: () => { return 0 } });
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  let totalValue = 0
+
+  const calculateTotalValue = () => {
+    totalValue = items.reduce((total, item) => total += item.product.price * item.quantity, 0)
+    return totalValue
+  }
 
   const onAddItem = (product: Product, size: CartItem['size']) => {
     const item = items.find(item => item.product_id === product.id && item.size === size)
@@ -64,7 +71,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems(removedItem ? [...items] : [])
   }
   return (
-    <CartContext.Provider value={{items, onAddItem, onRemoveItem, onUpdateItem, clearCart}}>
+    <CartContext.Provider value={{items, onAddItem, onRemoveItem, onUpdateItem, clearCart,calculateTotalValue}}>
       {children}
     </CartContext.Provider>
   )

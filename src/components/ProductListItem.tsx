@@ -1,5 +1,5 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useSegments } from 'expo-router';
 import { defaultImage } from '@/constants/Links';
 
 interface ProductListItemProps {
@@ -10,8 +10,11 @@ interface ProductListItemProps {
 }
 
 export function ProductListItem({ id, image, name, price }: ProductListItemProps) {
+  const segments = useSegments();
+
+  const path = segments[0] === '(admin)' ? '(admin)' : '(users)';
   return (
-    <Link href={`/menu/${id}`} asChild>
+    <Link href={`/${path}/menu/${id}`} asChild>
       <Pressable style={styles.container} >
         <Image style={styles.image} source={{ uri: image || defaultImage }} resizeMode='contain' />
         <View>

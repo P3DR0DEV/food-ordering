@@ -1,12 +1,14 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
-import { useColorScheme } from '@/components/useColorScheme';
-import { CartProvider } from '@/context/CartProvider';
+
+import { CartProvider, useCart } from '@/context/CartProvider';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -26,7 +28,6 @@ export default function RootLayout() {
     SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
-
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -46,16 +47,56 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const { clearCart } = useCart();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DefaultTheme}>
       <CartProvider>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="cart" options={{ presentation: 'modal', title: 'Cart' }} />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(admin)" options={{ headerShown: false }} />
+          <Stack.Screen name="(users)" options={{ headerShown: false }} />
+          <Stack.Screen
+          name="cart"
+          //! Opções que podem ser passadas para o componente Stack.Screen que representa o header da tela
+          options={{
+            presentation: 'modal',
+            title: 'Cart', 
+            headerTitleAlign: 'left',
+            //! Para estilizar o Title no IOS deve ser criado um novo componente e estilizado manualmente
+            headerTitle: props => (
+              <View style={{ flex: 1, flexDirection: "row" }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  {props.children}
+                </Text>
+              </View>
+            ),
+            //! Cria um botão para limpar o carrinho
+            headerRight: () => (
+                <Link href="/(users)/menu" asChild>
+                  <Pressable
+                  onPress={clearCart}
+                  style={styles.button}
+                  >
+                    <Text>Clear</Text>
+                    <Ionicons name="trash-outline" size={24} color="#ef4444" />
+                  </Pressable>
+                </Link>
+              ) 
+          }}
+          />
         </Stack>
       </CartProvider >
     </ThemeProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    padding: 10,
+    flexDirection: 'row',
+    gap:4,
+    alignItems: 'center',
+    alignSelf:'flex-end',
+  },
+})
