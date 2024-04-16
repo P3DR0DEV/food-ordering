@@ -1,6 +1,6 @@
 import { FlatList } from 'react-native';
 import { products } from '@/api/data/products';
-import { ProductListItem } from '@/components/ProductListItem';
+import { ProductListItem } from '@/components/productListItem';
 
 export default function MenuScreen() {
   return (

@@ -1,14 +1,15 @@
 import Colors from "@/constants/Colors";
 import { forwardRef } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 type ButtonProps = {
+  style?: StyleProp<ViewStyle>
   text: string
 } & React.ComponentPropsWithoutRef<typeof Pressable>
 
-export const Button = forwardRef<View | null, ButtonProps>(({ text, ...props }, ref) => {
+export const Button = forwardRef<View | null, ButtonProps>(({ style, text, ...props }, ref) => {
   return (
-    <Pressable ref={ref} {...props} style={styles.container}>
+    <Pressable ref={ref} {...props} style={[styles.container, style]}>
       <Text style={styles.text}>{text}</Text>
     </Pressable>
   ) 

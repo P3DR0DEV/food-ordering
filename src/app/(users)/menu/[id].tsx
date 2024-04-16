@@ -4,7 +4,7 @@ import { products } from "@/api/data/products";
 import NotFoundScreen from "@/app/+not-found";
 import { defaultImage } from "@/constants/Links";
 import { useState } from "react";
-import { Button } from "@/components/Button";
+import { Button } from "@/components/button";
 import { useCart } from "@/context/CartProvider";
 import { PizzaSize } from "@/types";
 

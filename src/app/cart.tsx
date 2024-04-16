@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { FlatList, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, Platform, StyleSheet, Text, View } from "react-native";
 import { useCart } from "@/context/CartProvider";
-import { CartListItem } from "@/components/CartListItem";
-import { Button } from "@/components/Button";
+import { CartListItem } from "@/components/cartListItem";
+import { Button } from "@/components/button";
 
 export default function CartScreen() {
   const { items, calculateTotalValue } = useCart()
