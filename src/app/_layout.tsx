@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { CartProvider, useCart } from '@/context/CartProvider';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,6 +52,7 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
+      <StatusBar style="dark" />
       <CartProvider>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />

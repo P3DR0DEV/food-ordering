@@ -1,20 +1,28 @@
+import { router, Stack, useLocalSearchParams } from "expo-router";
+import { View, Pressable, StyleSheet, Text, Image } from "react-native";
 import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 
 import { Button } from "@/components/button";
+import NotFoundScreen from "@/app/+not-found";
 import { Input } from "@/components/input";
-import Colors from "@/constants/Colors";
 import { defaultImage } from "@/constants/Links";
-import { Stack } from "expo-router";
+import Colors from "@/constants/Colors";
+import { products } from "@/api/data/products";
 
-
-export default function CreateProduct() {
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
-
+export default function EditProduct() {
+  const { id } = useLocalSearchParams()
+  const product = products.find(product => product.id.toString() === id)
+  
+  const [name, setName] = useState(product.name)
+  const [price, setPrice] = useState(product.price.toString())
+  const [imageUrl, setImageUrl] = useState<string | null>(product.image)
   const [erros, setErrors] = useState('')
+
+  if (!id) {
+    return <NotFoundScreen />
+  }
+
 
   async function selectImage() {
     const permissionsResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -45,25 +53,18 @@ export default function CreateProduct() {
     return true
   }
 
-  function reset() {
-    setName('')
-    setPrice('')
-    setImageUrl(null)
-  }
-
-  function createProduct() {
+  function updateProduct() {
     if(!validateInput()) {
       return
     }
-
     console.log(name, price, imageUrl)
 
-    reset()
+    router.push('/(admin)/menu')
   }
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Create Product' }} />
+      <Stack.Screen options={{ headerBackTitle: 'Back' ,title: 'Edit Product' }} />
       <View style={styles.container}>
         <Image source={{ uri: imageUrl || defaultImage }} style={styles.image} />
 
@@ -84,11 +85,12 @@ export default function CreateProduct() {
 
         <Text style={{ color: 'red' }}>{erros}</Text>
         
-        <Button text="Create" style={{ marginTop: 50 }} onPress={createProduct}/>
+        <Button text="Update Product" style={{ marginTop: 50 }} onPress={updateProduct}/>
       </View>
     </>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {

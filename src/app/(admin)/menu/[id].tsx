@@ -1,9 +1,11 @@
-import { Stack, useLocalSearchParams } from "expo-router";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Link, Stack, useLocalSearchParams } from "expo-router";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { products } from "@/api/data/products";
 import NotFoundScreen from "@/app/+not-found";
 import { defaultImage } from "@/constants/Links";
+import { FontAwesome } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
 
 
 
@@ -17,7 +19,25 @@ export default function Product() {
       {/* Redirect to 404 if product is not found */}
       {!product && <NotFoundScreen />}
 
-      <Stack.Screen options={{ title: product.name }} />
+      <Stack.Screen
+        options={{
+          title: product.name,
+          headerRight: () => (
+              <Link href={`/(admin)/menu/edit/${id}`} asChild>
+                <Pressable>
+                  {({ pressed }) => (
+                    <FontAwesome
+                    name="pencil"
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                    />
+                    )}
+                </Pressable>
+              </Link>
+            ),
+        }}
+      />
       <Image source={{ uri: product.image || defaultImage }} style={styles.image} />
 
       <Text style={styles.name}>{product.name}</Text>

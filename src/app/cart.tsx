@@ -15,7 +15,6 @@ export default function CartScreen() {
 
       <Text style={styles.totalValue}>Total: {calculateTotalValue()}</Text>
       <Button text="Checkout" />
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
   )
 }
