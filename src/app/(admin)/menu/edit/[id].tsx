@@ -1,5 +1,5 @@
 import { router, Stack, useLocalSearchParams } from "expo-router";
-import { View, Pressable, StyleSheet, Text, Image } from "react-native";
+import { View, Pressable, StyleSheet, Text, Image, Alert } from "react-native";
 import { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -12,6 +12,7 @@ import { products } from "@/api/data/products";
 
 export default function EditProduct() {
   const { id } = useLocalSearchParams()
+  
   const product = products.find(product => product.id.toString() === id)
   
   const [name, setName] = useState(product.name)
@@ -53,6 +54,21 @@ export default function EditProduct() {
     return true
   }
 
+  function onDelete() {}
+
+  function confirmDelete() {
+    Alert.alert("Confirm", "Are you sure you want to delete this product?", [
+      {
+        text: "Cancel",
+      },
+      {
+        text: "Delete",
+        style: "destructive",
+        onPress: () => onDelete(),
+      }
+    ])
+  }
+
   function updateProduct() {
     if(!validateInput()) {
       return
@@ -86,6 +102,7 @@ export default function EditProduct() {
         <Text style={{ color: 'red' }}>{erros}</Text>
         
         <Button text="Update Product" style={{ marginTop: 50 }} onPress={updateProduct}/>
+        <Text onPress={confirmDelete} style={styles.selectImageText}>Delete</Text>
       </View>
     </>
   )
