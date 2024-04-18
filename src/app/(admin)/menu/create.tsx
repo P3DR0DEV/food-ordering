@@ -1,13 +1,12 @@
-import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
+import { useState } from 'react'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
 
-import { Button } from "@/components/button";
-import { Input } from "@/components/input";
-import Colors from "@/constants/Colors";
-import { defaultImage } from "@/constants/Links";
-import { Stack } from "expo-router";
-
+import { Button } from '@/components/button'
+import { Input } from '@/components/input'
+import Colors from '@/constants/Colors'
+import { defaultImage } from '@/constants/Links'
+import { Stack } from 'expo-router'
 
 export default function CreateProduct() {
   const [name, setName] = useState('')
@@ -17,15 +16,15 @@ export default function CreateProduct() {
   const [erros, setErrors] = useState('')
 
   async function selectImage() {
-    const permissionsResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if(permissionsResult.granted) {
+    const permissionsResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (permissionsResult.granted) {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 4],
       })
 
-      if(!result.canceled) {
+      if (!result.canceled) {
         setImageUrl(result.assets[0].uri)
       }
     }
@@ -33,12 +32,12 @@ export default function CreateProduct() {
 
   function validateInput() {
     setErrors('')
-    if(name === '' || price === '') {
+    if (name === '' || price === '') {
       setErrors('All fields are required')
       return false
     }
 
-    if(isNaN(parseFloat(price))) {
+    if (isNaN(parseFloat(price))) {
       setErrors('Price must be a number')
       return false
     }
@@ -52,7 +51,7 @@ export default function CreateProduct() {
   }
 
   function createProduct() {
-    if(!validateInput()) {
+    if (!validateInput()) {
       return
     }
 
@@ -73,18 +72,28 @@ export default function CreateProduct() {
 
         <Input>
           <Input.Label>Name</Input.Label>
-          <Input.Field placeholder="Margarita..." placeholderTextColor={'gainsboro'} value={name} onChangeText={setName} />
+          <Input.Field
+            placeholder="Margarita..."
+            placeholderTextColor={'gainsboro'}
+            value={name}
+            onChangeText={setName}
+          />
         </Input>
-
 
         <Input>
           <Input.Label>Price</Input.Label>
-          <Input.Field placeholder="9.99" keyboardType="numeric" value={price} placeholderTextColor={'gainsboro'}  onChangeText={setPrice}/>
+          <Input.Field
+            placeholder="9.99"
+            keyboardType="numeric"
+            value={price}
+            placeholderTextColor={'gainsboro'}
+            onChangeText={setPrice}
+          />
         </Input>
 
         <Text style={{ color: 'red' }}>{erros}</Text>
-        
-        <Button text="Create" style={{ marginTop: 50 }} onPress={createProduct}/>
+
+        <Button text="Create" style={{ marginTop: 50 }} onPress={createProduct} />
       </View>
     </>
   )
@@ -93,18 +102,18 @@ export default function CreateProduct() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10 
+    padding: 10,
   },
   image: {
     width: '50%',
     aspectRatio: 1,
     alignSelf: 'center',
     borderRadius: 100,
-    marginBottom: 20 
+    marginBottom: 20,
   },
   selectImageText: {
     textAlign: 'center',
     fontWeight: 'bold',
-    color: Colors.light.tint 
-  }
+    color: Colors.light.tint,
+  },
 })

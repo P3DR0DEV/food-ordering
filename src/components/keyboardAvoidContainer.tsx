@@ -1,15 +1,19 @@
-import { SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, StatusBar } from "react-native";
+import { SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
 
 export function KeyboardAvoidContainer({ children }: { children: React.ReactNode }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView keyboardVerticalOffset={0} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        keyboardVerticalOffset={0}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
-          {children}  
+          {children}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -17,5 +21,5 @@ const styles = StyleSheet.create({
     padding: 16,
     justifyContent: 'center',
     height: '100%',
-  }
+  },
 })

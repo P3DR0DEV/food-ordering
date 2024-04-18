@@ -1,11 +1,11 @@
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
-import { useState } from "react";
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Link, Stack } from 'expo-router'
+import { useState } from 'react'
+import { Text, View } from 'react-native'
 
-import { Input } from "@/components/input";
-import { Button } from "@/components/button";
-import { KeyboardAvoidContainer } from "@/components/keyboardAvoidContainer";
+import { Input } from '@/components/input'
+import { Button } from '@/components/button'
+import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
 
 export default function SignUp() {
   const [name, setName] = useState('')
@@ -14,16 +14,15 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
 
   function toggleShowPassword() {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
-  function handleSignUp() { }
+  function handleSignUp() {}
 
   return (
     <KeyboardAvoidContainer>
       <Stack.Screen options={{ title: 'Sign in', headerShown: true }} />
       <View style={{ gap: 16 }}>
-
         {/* Login user Name field */}
         <Input>
           <Input.Label style={{ marginBottom: 4 }}>Name</Input.Label>
@@ -47,17 +46,18 @@ export default function SignUp() {
           <Input.Label style={{ marginBottom: 4 }}>Password</Input.Label>
           <Input.Icon>
             <MaterialIcons name="password" size={20} color="black" />
-            <Input.Field placeholder="Password" secureTextEntry={!showPassword} value={password} onChangeText={setPassword} />
-            <MaterialCommunityIcons
-              name={showPassword ? 'eye-off' : 'eye'}
-              size={20}
-              onPress={toggleShowPassword}
+            <Input.Field
+              placeholder="Password"
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
             />
+            <MaterialCommunityIcons name={showPassword ? 'eye-off' : 'eye'} size={20} onPress={toggleShowPassword} />
           </Input.Icon>
         </Input>
       </View>
 
-      <Button text='Create Account' style={{ marginTop: 20 }} onPress={handleSignUp} />
+      <Button text="Create Account" style={{ marginTop: 20 }} onPress={handleSignUp} />
 
       <Text style={{ textAlign: 'center', marginVertical: 10 }}>
         Already have an account?
@@ -65,7 +65,6 @@ export default function SignUp() {
           Sign In
         </Link>
       </Text>
-
     </KeyboardAvoidContainer>
   )
-} 
+}

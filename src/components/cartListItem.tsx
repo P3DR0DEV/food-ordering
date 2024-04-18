@@ -1,25 +1,21 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
-import React from 'react';
-import Colors from '../constants/Colors';
-import { CartItem } from '../types';
-import { defaultImage } from '../constants/Links';
-import { FontAwesome } from '@expo/vector-icons';
-import { useCart } from '@/context/CartProvider'; 
+import { View, Text, StyleSheet, Image } from 'react-native'
+import React from 'react'
+import Colors from '../constants/Colors'
+import { CartItem } from '../types'
+import { defaultImage } from '../constants/Links'
+import { FontAwesome } from '@expo/vector-icons'
+import { useCart } from '@/context/CartProvider'
 
 type CartListItemProps = {
-  cartItem: CartItem;
-};
+  cartItem: CartItem
+}
 
 export const CartListItem = ({ cartItem }: CartListItemProps) => {
-  const { onUpdateItem, onRemoveItem } = useCart();
+  const { onUpdateItem, onRemoveItem } = useCart()
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: cartItem.product.image || defaultImage }}
-        style={styles.image}
-        resizeMode="contain"
-      />
+      <Image source={{ uri: cartItem.product.image || defaultImage }} style={styles.image} resizeMode="contain" />
       <View style={{ flex: 1 }}>
         <Text style={styles.title}>{cartItem.product.name}</Text>
         <View style={styles.subtitleContainer}>
@@ -28,25 +24,15 @@ export const CartListItem = ({ cartItem }: CartListItemProps) => {
         </View>
       </View>
       <View style={styles.quantitySelector}>
-        <FontAwesome name="trash" color="gray" style={{ padding: 10 }}  onPress={() => onRemoveItem(cartItem.id)}/>
-        <FontAwesome
-          onPress={() => onUpdateItem(cartItem.id, -1)}
-          name="minus"
-          color="gray"
-          style={{ padding: 5 }}
-        />
+        <FontAwesome name="trash" color="gray" style={{ padding: 10 }} onPress={() => onRemoveItem(cartItem.id)} />
+        <FontAwesome onPress={() => onUpdateItem(cartItem.id, -1)} name="minus" color="gray" style={{ padding: 5 }} />
 
         <Text style={styles.quantity}>{cartItem.quantity}</Text>
-        <FontAwesome
-          onPress={() => onUpdateItem(cartItem.id, 1)}
-          name="plus"
-          color="gray"
-          style={{ padding: 5 }}
-        />
+        <FontAwesome onPress={() => onUpdateItem(cartItem.id, 1)} name="plus" color="gray" style={{ padding: 5 }} />
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -86,4 +72,4 @@ const styles = StyleSheet.create({
     color: Colors.light.tint,
     fontWeight: 'bold',
   },
-});
+})

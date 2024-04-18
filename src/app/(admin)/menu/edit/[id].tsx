@@ -1,20 +1,24 @@
-import { router, Stack, useLocalSearchParams } from "expo-router";
-import { View, Pressable, StyleSheet, Text, Image, Alert } from "react-native";
-import { useState } from "react";
-import * as ImagePicker from 'expo-image-picker';
+import { router, Stack, useLocalSearchParams } from 'expo-router'
+import { View, Pressable, StyleSheet, Text, Image, Alert } from 'react-native'
+import { useState } from 'react'
+import * as ImagePicker from 'expo-image-picker'
 
-import { Button } from "@/components/button";
-import NotFoundScreen from "@/app/+not-found";
-import { Input } from "@/components/input";
-import { defaultImage } from "@/constants/Links";
-import Colors from "@/constants/Colors";
-import { products } from "@/api/data/products";
+import { Button } from '@/components/button'
+import NotFoundScreen from '@/app/+not-found'
+import { Input } from '@/components/input'
+import { defaultImage } from '@/constants/Links'
+import Colors from '@/constants/Colors'
+import { products } from '@/api/data/products'
 
 export default function EditProduct() {
   const { id } = useLocalSearchParams()
-  
-  const product = products.find(product => product.id.toString() === id)
-  
+
+  const product = products.find((product) => product.id.toString() === id)
+
+  if (!product) {
+    return <NotFoundScreen />
+  }
+
   const [name, setName] = useState(product.name)
   const [price, setPrice] = useState(product.price.toString())
   const [imageUrl, setImageUrl] = useState<string | null>(product.image)
@@ -24,17 +28,16 @@ export default function EditProduct() {
     return <NotFoundScreen />
   }
 
-
   async function selectImage() {
-    const permissionsResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if(permissionsResult.granted) {
+    const permissionsResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (permissionsResult.granted) {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 4],
       })
 
-      if(!result.canceled) {
+      if (!result.canceled) {
         setImageUrl(result.assets[0].uri)
       }
     }
@@ -42,12 +45,12 @@ export default function EditProduct() {
 
   function validateInput() {
     setErrors('')
-    if(name === '' || price === '') {
+    if (name === '' || price === '') {
       setErrors('All fields are required')
       return false
     }
 
-    if(isNaN(parseFloat(price))) {
+    if (isNaN(parseFloat(price))) {
       setErrors('Price must be a number')
       return false
     }
@@ -57,20 +60,20 @@ export default function EditProduct() {
   function onDelete() {}
 
   function confirmDelete() {
-    Alert.alert("Confirm", "Are you sure you want to delete this product?", [
+    Alert.alert('Confirm', 'Are you sure you want to delete this product?', [
       {
-        text: "Cancel",
+        text: 'Cancel',
       },
       {
-        text: "Delete",
-        style: "destructive",
+        text: 'Delete',
+        style: 'destructive',
         onPress: () => onDelete(),
-      }
+      },
     ])
   }
 
   function updateProduct() {
-    if(!validateInput()) {
+    if (!validateInput()) {
       return
     }
     console.log(name, price, imageUrl)
@@ -80,7 +83,7 @@ export default function EditProduct() {
 
   return (
     <>
-      <Stack.Screen options={{ headerBackTitle: 'Back' ,title: 'Edit Product' }} />
+      <Stack.Screen options={{ headerBackTitle: 'Back', title: 'Edit Product' }} />
       <View style={styles.container}>
         <Image source={{ uri: imageUrl || defaultImage }} style={styles.image} />
 
@@ -90,40 +93,51 @@ export default function EditProduct() {
 
         <Input>
           <Input.Label>Name</Input.Label>
-          <Input.Field placeholder="Margarita..." placeholderTextColor={'gainsboro'} value={name} onChangeText={setName} />
+          <Input.Field
+            placeholder="Margarita..."
+            placeholderTextColor={'gainsboro'}
+            value={name}
+            onChangeText={setName}
+          />
         </Input>
-
 
         <Input>
           <Input.Label>Price</Input.Label>
-          <Input.Field placeholder="9.99" keyboardType="numeric" value={price} placeholderTextColor={'gainsboro'}  onChangeText={setPrice}/>
+          <Input.Field
+            placeholder="9.99"
+            keyboardType="numeric"
+            value={price}
+            placeholderTextColor={'gainsboro'}
+            onChangeText={setPrice}
+          />
         </Input>
 
         <Text style={{ color: 'red' }}>{erros}</Text>
-        
-        <Button text="Update Product" style={{ marginTop: 50 }} onPress={updateProduct}/>
-        <Text onPress={confirmDelete} style={styles.selectImageText}>Delete</Text>
+
+        <Button text="Update Product" style={{ marginTop: 50 }} onPress={updateProduct} />
+        <Text onPress={confirmDelete} style={styles.selectImageText}>
+          Delete
+        </Text>
       </View>
     </>
   )
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10 
+    padding: 10,
   },
   image: {
     width: '50%',
     aspectRatio: 1,
     alignSelf: 'center',
     borderRadius: 100,
-    marginBottom: 20 
+    marginBottom: 20,
   },
   selectImageText: {
     textAlign: 'center',
     fontWeight: 'bold',
-    color: Colors.light.tint 
-  }
+    color: Colors.light.tint,
+  },
 })
