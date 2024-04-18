@@ -38,8 +38,10 @@ export default function Product() {
       />
       <Image source={{ uri: product.image || defaultImage }} style={styles.image} />
 
-      <Text style={styles.name}>{product.name}</Text>
-      <Text style={styles.price}>${product.price}</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 50 }}>
+        <Text style={styles.name}>{product.name}</Text>
+        <Text style={styles.price}>${product.price}</Text>
+      </View>
     </View>
   )
 }
@@ -60,6 +62,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 18,
+    color: Colors.light.tint,
     fontWeight: 'bold',
     marginTop: 'auto',
   },

@@ -5,7 +5,14 @@ function Input({ children }: { children: React.ReactNode }) {
 }
 
 function InputField(props: TextInputProps) {
-  return <TextInput textContentType="oneTimeCode" style={styles.input} placeholderTextColor={'gainsboro'} {...props} />
+  return (
+    <TextInput
+      textContentType="oneTimeCode"
+      style={[styles.input, props.style]}
+      placeholderTextColor={'gainsboro'}
+      {...props}
+    />
+  )
 }
 
 interface InputProps extends ViewProps {}

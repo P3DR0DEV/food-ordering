@@ -1,6 +1,6 @@
-import { SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
+import { SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, ScrollViewProps } from 'react-native'
 
-export function KeyboardAvoidContainer({ children }: { children: React.ReactNode }) {
+export function KeyboardAvoidContainer(props: ScrollViewProps) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
@@ -8,8 +8,8 @@ export function KeyboardAvoidContainer({ children }: { children: React.ReactNode
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
-          {children}
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.container, props.style]}>
+          {props.children}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

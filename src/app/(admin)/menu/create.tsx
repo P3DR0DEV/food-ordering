@@ -7,6 +7,7 @@ import { Input } from '@/components/input'
 import Colors from '@/constants/Colors'
 import { defaultImage } from '@/constants/Links'
 import { Stack } from 'expo-router'
+import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
 
 export default function CreateProduct() {
   const [name, setName] = useState('')
@@ -63,38 +64,53 @@ export default function CreateProduct() {
   return (
     <>
       <Stack.Screen options={{ title: 'Create Product' }} />
-      <View style={styles.container}>
+      <KeyboardAvoidContainer style={styles.container}>
         <Image source={{ uri: imageUrl || defaultImage }} style={styles.image} />
 
         <Pressable onPress={selectImage}>
           <Text style={styles.selectImageText}>Select Image</Text>
         </Pressable>
 
-        <Input>
-          <Input.Label>Name</Input.Label>
-          <Input.Field
-            placeholder="Margarita..."
-            placeholderTextColor={'gainsboro'}
-            value={name}
-            onChangeText={setName}
-          />
-        </Input>
+        <View style={{ gap: 16 }}>
+          <Input>
+            <Input.Label>Name</Input.Label>
+            <Input.Field
+              style={{
+                padding: 10,
+                marginTop: 4,
+                borderWidth: 1,
+                borderColor: 'gray',
+                borderRadius: 10,
+              }}
+              placeholder="Margarita..."
+              placeholderTextColor={'gainsboro'}
+              value={name}
+              onChangeText={setName}
+            />
+          </Input>
 
-        <Input>
-          <Input.Label>Price</Input.Label>
-          <Input.Field
-            placeholder="9.99"
-            keyboardType="numeric"
-            value={price}
-            placeholderTextColor={'gainsboro'}
-            onChangeText={setPrice}
-          />
-        </Input>
+          <Input>
+            <Input.Label>Price</Input.Label>
+            <Input.Field
+              placeholder="9.99"
+              style={{
+                padding: 10,
+                marginTop: 4,
+                borderWidth: 1,
+                borderColor: 'gray',
+                borderRadius: 10,
+              }}
+              keyboardType="numeric"
+              value={price}
+              placeholderTextColor={'gainsboro'}
+              onChangeText={setPrice}
+            />
+          </Input>
 
-        <Text style={{ color: 'red' }}>{erros}</Text>
-
-        <Button text="Create" style={{ marginTop: 50 }} onPress={createProduct} />
-      </View>
+          <Text style={{ color: 'red' }}>{erros}</Text>
+        </View>
+        <Button text="Create" onPress={createProduct} />
+      </KeyboardAvoidContainer>
     </>
   )
 }
@@ -103,6 +119,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    marginTop: -100,
   },
   image: {
     width: '50%',

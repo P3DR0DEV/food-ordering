@@ -1,5 +1,4 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome'
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { Link, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
@@ -50,13 +49,13 @@ function RootLayoutNav() {
   const { clearCart } = useCart()
 
   return (
-    <ThemeProvider value={DefaultTheme}>
+    <>
       <StatusBar style="dark" />
       <CartProvider>
         <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="(admin)" options={{ headerShown: false }} />
           <Stack.Screen name="(users)" options={{ headerShown: false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen
             name="cart"
             //! Opções que podem ser passadas para o componente Stack.Screen que representa o header da tela
@@ -83,7 +82,7 @@ function RootLayoutNav() {
           />
         </Stack>
       </CartProvider>
-    </ThemeProvider>
+    </>
   )
 }
 

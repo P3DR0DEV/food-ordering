@@ -38,6 +38,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="order/[id]"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   )
 }

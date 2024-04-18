@@ -1,5 +1,5 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router'
-import { View, Pressable, StyleSheet, Text, Image, Alert } from 'react-native'
+import { Pressable, StyleSheet, Text, Image, Alert, View } from 'react-native'
 import { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
 
@@ -9,6 +9,7 @@ import { Input } from '@/components/input'
 import { defaultImage } from '@/constants/Links'
 import Colors from '@/constants/Colors'
 import { products } from '@/api/data/products'
+import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
 
 export default function EditProduct() {
   const { id } = useLocalSearchParams()
@@ -84,41 +85,57 @@ export default function EditProduct() {
   return (
     <>
       <Stack.Screen options={{ headerBackTitle: 'Back', title: 'Edit Product' }} />
-      <View style={styles.container}>
+      <KeyboardAvoidContainer style={styles.container}>
         <Image source={{ uri: imageUrl || defaultImage }} style={styles.image} />
 
         <Pressable onPress={selectImage}>
           <Text style={styles.selectImageText}>Select Image</Text>
         </Pressable>
 
-        <Input>
-          <Input.Label>Name</Input.Label>
-          <Input.Field
-            placeholder="Margarita..."
-            placeholderTextColor={'gainsboro'}
-            value={name}
-            onChangeText={setName}
-          />
-        </Input>
+        <View style={{ gap: 16 }}>
+          <Input>
+            <Input.Label>Name</Input.Label>
+            <Input.Field
+              style={{
+                padding: 10,
+                marginTop: 4,
+                borderWidth: 1,
+                borderColor: 'gray',
+                borderRadius: 10,
+              }}
+              placeholder="Margarita..."
+              placeholderTextColor={'gainsboro'}
+              value={name}
+              onChangeText={setName}
+            />
+          </Input>
 
-        <Input>
-          <Input.Label>Price</Input.Label>
-          <Input.Field
-            placeholder="9.99"
-            keyboardType="numeric"
-            value={price}
-            placeholderTextColor={'gainsboro'}
-            onChangeText={setPrice}
-          />
-        </Input>
+          <Input>
+            <Input.Label>Price</Input.Label>
+            <Input.Field
+              style={{
+                padding: 10,
+                marginTop: 4,
+                borderWidth: 1,
+                borderColor: 'gray',
+                borderRadius: 10,
+              }}
+              placeholder="9.99"
+              keyboardType="numeric"
+              value={price}
+              placeholderTextColor={'gainsboro'}
+              onChangeText={setPrice}
+            />
+          </Input>
 
-        <Text style={{ color: 'red' }}>{erros}</Text>
+          <Text style={{ color: 'red' }}>{erros}</Text>
+        </View>
 
-        <Button text="Update Product" style={{ marginTop: 50 }} onPress={updateProduct} />
+        <Button text="Update Product" onPress={updateProduct} />
         <Text onPress={confirmDelete} style={styles.selectImageText}>
           Delete
         </Text>
-      </View>
+      </KeyboardAvoidContainer>
     </>
   )
 }
@@ -127,6 +144,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    marginTop: -100,
   },
   image: {
     width: '50%',

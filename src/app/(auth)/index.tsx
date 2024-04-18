@@ -1,14 +1,13 @@
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { Link, Stack } from 'expo-router'
-import { useState } from 'react'
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import { Link, router, Stack } from 'expo-router'
 import { Text, View } from 'react-native'
 
-import { Input } from '@/components/input'
 import { Button } from '@/components/button'
+import { Input } from '@/components/input'
+import { useState } from 'react'
 import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
 
-export default function SignUp() {
-  const [name, setName] = useState('')
+export default function App() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -17,21 +16,14 @@ export default function SignUp() {
     setShowPassword(!showPassword)
   }
 
-  function handleSignUp() {}
+  async function signIn() {
+    router.push('/(admin)')
+  }
 
   return (
     <KeyboardAvoidContainer>
       <Stack.Screen options={{ title: 'Sign in', headerShown: true }} />
       <View style={{ gap: 16 }}>
-        {/* Login user Name field */}
-        <Input>
-          <Input.Label style={{ marginBottom: 4 }}>Name</Input.Label>
-          <Input.Icon>
-            <MaterialIcons name="person-outline" size={20} color="black" />
-            <Input.Field placeholder="Your Name" value={name} onChangeText={setName} />
-          </Input.Icon>
-        </Input>
-
         {/* Login user Email field */}
         <Input>
           <Input.Label style={{ marginBottom: 4 }}>Email</Input.Label>
@@ -57,12 +49,12 @@ export default function SignUp() {
         </Input>
       </View>
 
-      <Button text="Create Account" style={{ marginTop: 20 }} onPress={handleSignUp} />
+      <Button text="Sign in" style={{ marginTop: 20 }} onPress={signIn} />
 
       <Text style={{ textAlign: 'center', marginVertical: 10 }}>
-        Already have an account?
-        <Link href="/" style={{ color: 'blue' }}>
-          Sign In
+        Don't have an account?{' '}
+        <Link href="/sign-up" style={{ color: 'blue' }}>
+          Sign up
         </Link>
       </Text>
     </KeyboardAvoidContainer>

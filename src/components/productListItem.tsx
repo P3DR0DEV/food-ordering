@@ -12,9 +12,8 @@ interface ProductListItemProps {
 export function ProductListItem({ id, image, name, price }: ProductListItemProps) {
   const segments = useSegments()
 
-  const path = segments[0] === '(admin)' ? '(admin)' : '(users)'
   return (
-    <Link href={`/${path}/menu/${id}`} asChild>
+    <Link href={`/${segments[0]}/menu/${id}`} asChild>
       <Pressable style={styles.container}>
         <Image style={styles.image} source={{ uri: image || defaultImage }} resizeMode="contain" />
         <View>
