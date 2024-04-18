@@ -1,5 +1,4 @@
-import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native'
-import { TextProps, ViewProps } from './Themed'
+import { StyleSheet, Text, TextInput, TextInputProps, View,  TextProps, ViewProps  } from 'react-native'
 
 function Input({ children }: { children: React.ReactNode }) {
   return (
@@ -10,7 +9,7 @@ function Input({ children }: { children: React.ReactNode }) {
 }
 
 function InputField(props: TextInputProps) {
-  return <TextInput style={styles.input} placeholderTextColor={'gainsboro'} {...props} />
+  return <TextInput textContentType='oneTimeCode' style={styles.input} placeholderTextColor={'gainsboro'} {...props} />
 }
 
 interface InputProps extends ViewProps {
