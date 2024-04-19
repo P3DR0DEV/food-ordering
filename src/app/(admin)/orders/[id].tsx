@@ -4,6 +4,7 @@ import { OrderInfo } from '@/components/order-info'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { FlatList, View } from 'react-native'
 import { OrderItem } from './_components/order-item'
+import { OrderStatusList } from './_components/order-status'
 
 export default function OrderScreen() {
   const { id } = useLocalSearchParams()
@@ -28,6 +29,7 @@ export default function OrderScreen() {
         data={order.order_items}
         renderItem={({ item }) => <OrderItem {...item} />}
         ListHeaderComponent={() => <OrderInfo order={order} />}
+        ListFooterComponent={() => <OrderStatusList status={order.status} />}
       />
     </View>
   )
