@@ -2,7 +2,7 @@ import orders from '@/api/data/orders'
 import NotFoundScreen from '@/app/+not-found'
 import { OrderInfo } from '@/components/order-info'
 import { Stack, useLocalSearchParams } from 'expo-router'
-import { ScrollView } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { OrderItem } from './_components/order-item'
 
 export default function OrderScreen() {
@@ -17,15 +17,18 @@ export default function OrderScreen() {
     return <NotFoundScreen />
   }
   return (
-    <ScrollView style={{ flex: 1, padding: 16 }}>
+    <View style={{ padding: 16, gap: 16, flex: 1 }}>
       <Stack.Screen
         options={{
           title: 'Order #' + id,
         }}
       />
-      <OrderInfo order={order} />
-
-      {order.order_items && order.order_items.map((item) => <OrderItem key={item.id} {...item} />)}
-    </ScrollView>
+      <FlatList
+        contentContainerStyle={{ gap: 12 }}
+        data={order.order_items}
+        renderItem={({ item }) => <OrderItem {...item} />}
+        ListHeaderComponent={() => <OrderInfo order={order} />}
+      />
+    </View>
   )
 }

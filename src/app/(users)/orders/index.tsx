@@ -2,7 +2,7 @@ import { FlatList } from 'react-native'
 import orders from '@/api/data/orders'
 import { OrderInfo } from '@/components/order-info'
 
-export default function TabTwoScreen() {
+export default function OrdersScreen() {
   return (
     <FlatList
       keyExtractor={(item) => item.id.toString()}
