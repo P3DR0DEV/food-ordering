@@ -6,6 +6,7 @@ import { Text, View } from 'react-native'
 import { Input } from '@/components/input'
 import { Button } from '@/components/button'
 import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
+import { api } from '@/lib/axios'
 
 export default function SignUp() {
   const [name, setName] = useState('')
@@ -17,8 +18,16 @@ export default function SignUp() {
     setShowPassword(!showPassword)
   }
 
-  function handleSignUp() {
-    router.push('/')
+  async function handleSignUp() {
+    const data = await api.post('/users', {
+      name,
+      email,
+      password,
+    })
+
+    if (data.status === 201) {
+      router.push('/(auth)/')
+    }
   }
 
   return (
