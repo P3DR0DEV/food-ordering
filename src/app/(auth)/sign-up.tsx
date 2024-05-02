@@ -2,13 +2,13 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Link, router, Stack } from 'expo-router'
 import { useState } from 'react'
 import { Text, View } from 'react-native'
-import * as Burnt from 'burnt'
 
 import { Input } from '@/components/input'
 import { Button } from '@/components/button'
 import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
 
 import { signUp as signUpAction } from './actions'
+import { toast } from '@/lib/toast'
 
 export default function SignUp() {
   const [name, setName] = useState('')
@@ -28,19 +28,11 @@ export default function SignUp() {
     })
 
     if (status === 201 && data) {
-      Burnt.toast({
-        title: 'Success',
-        preset: 'done',
-        message: 'User created successfully',
-      })
+      toast.success({ title: 'Success', message: 'User signed up successfully' })
       return router.push('/(auth)/')
     }
 
-    Burnt.toast({
-      title: 'Error',
-      preset: 'error',
-      message: data?.message,
-    })
+    toast.error({ title: data.name || 'Error', message: data.message || 'Unknown error' })
   }
 
   return (

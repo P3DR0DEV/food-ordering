@@ -7,7 +7,7 @@ import { Input } from '@/components/input'
 import { useState } from 'react'
 import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
 import { signIn as signInAction } from './actions'
-import * as Burnt from 'burnt'
+import { toast } from '@/lib/toast'
 
 export default function App() {
   const [email, setEmail] = useState('')
@@ -24,18 +24,16 @@ export default function App() {
     // TODO: Create context to store user data
     if (status === 200 && data) {
       // TODO: redirect to admin page if user is admin
-      Burnt.toast({
+      toast.success({
         title: 'Success',
-        preset: 'done',
         message: 'User signed in successfully',
       })
 
       return router.push('/(users)/menu')
     }
 
-    Burnt.toast({
+    toast.error({
       title: data.name || 'Error',
-      preset: 'error',
       message: data.message || 'Unknown error',
     })
   }
