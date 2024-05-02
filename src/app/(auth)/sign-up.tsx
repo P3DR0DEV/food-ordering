@@ -2,11 +2,13 @@ import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Link, router, Stack } from 'expo-router'
 import { useState } from 'react'
 import { Text, View } from 'react-native'
+import * as Burnt from 'burnt'
 
 import { Input } from '@/components/input'
 import { Button } from '@/components/button'
 import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
-import { api } from '@/lib/axios'
+
+import { signUp as signUpAction } from './actions'
 
 export default function SignUp() {
   const [name, setName] = useState('')
@@ -19,15 +21,26 @@ export default function SignUp() {
   }
 
   async function handleSignUp() {
-    const data = await api.post('/users', {
+    const { status, data } = await signUpAction({
       name,
       email,
       password,
     })
 
-    if (data.status === 201) {
-      router.push('/(auth)/')
+    if (status === 201 && data) {
+      Burnt.toast({
+        title: 'Success',
+        preset: 'done',
+        message: 'User created successfully',
+      })
+      return router.push('/(auth)/')
     }
+
+    Burnt.toast({
+      title: 'Error',
+      preset: 'error',
+      message: data?.message,
+    })
   }
 
   return (
