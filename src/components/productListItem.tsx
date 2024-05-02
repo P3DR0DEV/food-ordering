@@ -3,19 +3,19 @@ import { Link, useSegments } from 'expo-router'
 import { defaultImage } from '@/constants/Links'
 
 interface ProductListItemProps {
-  id: number
-  image: string | null
+  id: string
+  imageUrl: string | null
   name: string
   price: number
 }
 
-export function ProductListItem({ id, image, name, price }: ProductListItemProps) {
+export function ProductListItem({ id, imageUrl, name, price }: ProductListItemProps) {
   const segments = useSegments()
 
   return (
     <Link href={`/${segments[0]}/menu/${id}`} asChild>
       <Pressable style={styles.container}>
-        <Image style={styles.image} source={{ uri: image || defaultImage }} resizeMode="contain" />
+        <Image style={styles.image} source={{ uri: imageUrl || defaultImage }} resizeMode="contain" />
         <View>
           <Text style={styles.productName}>{name}</Text>
           <Text style={styles.price}>${price}</Text>

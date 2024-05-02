@@ -1,8 +1,8 @@
 export type PizzaSize = 'S' | 'M' | 'L' | 'XL'
 
 export type Product = {
-  id: number
-  image: string | null
+  id: string
+  imageUrl: string | null
   name: string
   price: number
 }
@@ -31,7 +31,7 @@ export type Order = {
 export type CartItem = {
   id: string
   product: Product
-  product_id: number
+  product_id: string
   size: PizzaSize
   quantity: number
 }

@@ -1,12 +1,12 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import { products } from '@/api/data/products'
+import { ActivityIndicatorBase, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import NotFoundScreen from '@/app/+not-found'
 import { defaultImage } from '@/constants/Links'
 import { useState } from 'react'
 import { Button } from '@/components/button'
 import { useCart } from '@/context/CartProvider'
 import { PizzaSize } from '@/types'
+import { getProduct } from './actions'
 
 const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
 
@@ -15,9 +15,8 @@ export default function Product() {
   const [selectedSize, setSelectedSize] = useState<PizzaSize>('M')
   const { onAddItem } = useCart()
 
+  const { data: product, isLoading } = getProduct(id[0])
   const router = useRouter()
-
-  const product = products.find((product) => product.id.toString() === id)
 
   function addToCart() {
     if (!product) return
@@ -27,10 +26,11 @@ export default function Product() {
 
   return (
     <View style={styles.container}>
+      {isLoading && <ActivityIndicatorBase color="black" />}
       {product && (
         <>
           <Stack.Screen options={{ title: product.name }} />
-          <Image source={{ uri: product.image || defaultImage }} style={styles.image} />
+          <Image source={{ uri: product.imageUrl || defaultImage }} style={styles.image} />
           <Text>Select size</Text>
           <View style={styles.sizesContainer}>
             {sizes.map((size) => (
@@ -47,7 +47,7 @@ export default function Product() {
           <Button text="Add to cart" onPress={addToCart} />
         </>
       )}
-      {!product && <NotFoundScreen />}
+      {!product && !isLoading && <NotFoundScreen />}
     </View>
   )
 }
