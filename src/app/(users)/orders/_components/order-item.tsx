@@ -1,24 +1,31 @@
 import Colors from '@/constants/Colors'
 import { defaultImage } from '@/constants/Links'
-import { PizzaSize, Product } from '@/types'
+import { PizzaSize } from '@/types'
 import { Image, StyleSheet, Text, View } from 'react-native'
+import { useGetProduct } from '../actions'
+import NotFoundScreen from '@/app/+not-found'
 
 interface OrderItemProps {
-  products: Product
+  orderId: string
+  productId: string
   size: PizzaSize
   quantity: number
 }
 
-export function OrderItem({ size, quantity, products }: OrderItemProps) {
+export function OrderItem({ size, quantity, productId }: OrderItemProps) {
+  const { data: product } = useGetProduct(productId)
+
+  if (!product) return <NotFoundScreen />
+
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
-        <Image style={styles.image} source={{ uri: products.image || defaultImage }} resizeMode="contain" />
+        <Image style={styles.image} source={{ uri: product.imageUrl || defaultImage }} resizeMode="contain" />
         <View style={{ gap: 4 }}>
-          <Text style={{ fontWeight: 'bold' }}>{products.name}</Text>
+          <Text style={{ fontWeight: 'bold' }}>{product.name}</Text>
 
           <View style={{ flexDirection: 'row', gap: 8 }}>
-            <Text style={styles.price}>${products.price.toFixed(2)}</Text>
+            <Text style={styles.price}>${product.price.toFixed(2)}</Text>
             <Text style={{ color: 'gray', fontSize: 12, fontWeight: '400' }}>Size: {size}</Text>
           </View>
         </View>

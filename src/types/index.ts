@@ -1,4 +1,4 @@
-export type PizzaSize = 'S' | 'M' | 'L' | 'XL'
+export type PizzaSize = 'S' | 'M' | 'L' | 'XL' | 'XXL'
 
 export type Product = {
   id: string
@@ -8,30 +8,29 @@ export type Product = {
 }
 
 export type OrderItem = {
-  id: number
-  product_id: number
-  products: Product
-  order_id: number
+  id: string
+  productId: string
+  orderId: string
   size: PizzaSize
   quantity: number
 }
 
-export type OrderStatus = 'New' | 'Cooking' | 'Delivering' | 'Delivered'
+export type OrderStatus = 'new' | 'cooking' | 'delivering' | 'delivered' | 'cancelled'
 
 export type Order = {
-  id: number
-  created_at: string
+  id: string
+  createdAt: string
   total: number
-  user_id: string
+  userId: string
   status: OrderStatus
 
-  order_items?: OrderItem[]
+  orderItems?: OrderItem[]
 }
 
 export type CartItem = {
   id: string
   product: Product
-  product_id: string
+  productId: string
   size: PizzaSize
   quantity: number
 }

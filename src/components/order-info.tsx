@@ -5,7 +5,7 @@ import { compareDates } from '@/util/format-date'
 import { Link, useSegments } from 'expo-router'
 
 function OrderInfo({ order }: { order: Order }) {
-  const date = compareDates(new Date(order.created_at))
+  const date = compareDates(new Date(order.createdAt))
   const segments = useSegments()
 
   return (
