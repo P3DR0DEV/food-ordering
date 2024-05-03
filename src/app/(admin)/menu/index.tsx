@@ -1,11 +1,13 @@
 import { FlatList } from 'react-native'
-import { products } from '@/api/data/products'
 import { ProductListItem } from '@/components/productListItem'
+import { useGetProducts } from './actions'
 
 export default function MenuScreen() {
+  const { data } = useGetProducts()
+
   return (
     <FlatList
-      data={products}
+      data={data.products}
       renderItem={({ item }) => <ProductListItem key={item.id} {...item} />}
       numColumns={2}
       columnWrapperStyle={{ gap: 10 }}

@@ -8,13 +8,15 @@ import NotFoundScreen from '@/app/+not-found'
 import { Input } from '@/components/input'
 import { defaultImage } from '@/constants/Links'
 import Colors from '@/constants/Colors'
-import { products } from '@/api/data/products'
 import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
+import { useGetProduct } from '../../orders/actions'
+import { useDeleteProduct, useUpdateProduct } from './actions'
+import { toast } from '@/lib/toast'
 
 export default function EditProduct() {
   const { id } = useLocalSearchParams()
 
-  const product = products.find((product) => product.id.toString() === id)
+  const { data: product } = useGetProduct(id as string)
 
   if (!product) {
     return <NotFoundScreen />
@@ -22,7 +24,7 @@ export default function EditProduct() {
 
   const [name, setName] = useState(product.name)
   const [price, setPrice] = useState(product.price.toString())
-  const [imageUrl, setImageUrl] = useState<string | null>(product.image)
+  const [imageUrl, setImageUrl] = useState<string | null>(product.imageUrl)
   const [erros, setErrors] = useState('')
 
   if (!id) {
@@ -58,7 +60,13 @@ export default function EditProduct() {
     return true
   }
 
-  function onDelete() {}
+  function onDelete(id: string) {
+    const { error } = useDeleteProduct(id)
+
+    if (error) {
+      toast.error({ title: 'Error', message: error.message || 'Something went wrong' })
+    }
+  }
 
   function confirmDelete() {
     Alert.alert('Confirm', 'Are you sure you want to delete this product?', [
@@ -68,7 +76,7 @@ export default function EditProduct() {
       {
         text: 'Delete',
         style: 'destructive',
-        onPress: () => onDelete(),
+        onPress: () => onDelete(id as string),
       },
     ])
   }
@@ -77,9 +85,20 @@ export default function EditProduct() {
     if (!validateInput()) {
       return
     }
-    console.log(name, price, imageUrl)
+    const { error } = useUpdateProduct({
+      id: id as string,
+      name,
+      price: parseFloat(price),
+      description: null,
+      imageUrl,
+    })
 
-    router.push('/(admin)/menu')
+    if (error) {
+      return toast.error({ title: 'Error', message: error.message || 'Something went wrong' })
+    }
+
+    toast.success({ title: 'Success', message: 'Product updated successfully' })
+    return router.push('/(admin)/menu')
   }
 
   return (

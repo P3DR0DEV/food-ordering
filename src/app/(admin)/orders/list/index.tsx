@@ -1,8 +1,10 @@
 import { FlatList } from 'react-native'
-import orders from '@/api/data/orders'
 import { OrderInfo } from '@/components/order-info'
+import { useGetOrders } from '../actions'
 
 export default function OrdersScreen() {
+  const { orders } = useGetOrders()
+
   return (
     <FlatList
       keyExtractor={(item) => item.id.toString()}

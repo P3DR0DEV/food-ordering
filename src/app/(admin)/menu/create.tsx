@@ -8,6 +8,8 @@ import Colors from '@/constants/Colors'
 import { defaultImage } from '@/constants/Links'
 import { Stack } from 'expo-router'
 import { KeyboardAvoidContainer } from '@/components/keyboardAvoidContainer'
+import { useCreateProduct } from './actions'
+import { toast } from '@/lib/toast'
 
 export default function CreateProduct() {
   const [name, setName] = useState('')
@@ -56,8 +58,17 @@ export default function CreateProduct() {
       return
     }
 
-    console.log(name, price, imageUrl)
+    const { data, error } = useCreateProduct(name, parseFloat(price), imageUrl)
 
+    if (error) {
+      return toast.error({ title: 'Error', message: error.message || 'Something went wrong' })
+    }
+
+    if (!data) {
+      return toast.error({ title: 'Error', message: 'Something went wrong' })
+    }
+
+    toast.success({ title: 'Success', message: `Product ${data.product.name} created successfully` })
     reset()
   }
 

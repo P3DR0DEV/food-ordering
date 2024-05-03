@@ -1,22 +1,22 @@
 import { Link, Stack, useLocalSearchParams } from 'expo-router'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 
-import { products } from '@/api/data/products'
 import NotFoundScreen from '@/app/+not-found'
 import { defaultImage } from '@/constants/Links'
 import { FontAwesome } from '@expo/vector-icons'
 import Colors from '@/constants/Colors'
+import { useGetProduct } from '../orders/actions'
 
 export default function Product() {
   const { id } = useLocalSearchParams()
-  const product = products.find((product) => product.id.toString() === id)
 
+  const { data: product } = useGetProduct(id as string)
+
+  //  Redirect to 404 if product is not found
   if (!product) return <NotFoundScreen />
 
   return (
     <View style={styles.container}>
-      {/* Redirect to 404 if product is not found */}
-
       <Stack.Screen
         options={{
           title: product.name,
@@ -36,7 +36,7 @@ export default function Product() {
           ),
         }}
       />
-      <Image source={{ uri: product.image || defaultImage }} style={styles.image} />
+      <Image source={{ uri: product.imageUrl || defaultImage }} style={styles.image} />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 50 }}>
         <Text style={styles.name}>{product.name}</Text>

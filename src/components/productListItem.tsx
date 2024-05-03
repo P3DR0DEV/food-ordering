@@ -4,9 +4,10 @@ import { defaultImage } from '@/constants/Links'
 
 interface ProductListItemProps {
   id: string
-  imageUrl: string | null
+  imageUrl?: string | null
   name: string
   price: number
+  description?: string | null
 }
 
 export function ProductListItem({ id, imageUrl, name, price }: ProductListItemProps) {

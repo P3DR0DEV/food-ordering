@@ -2,18 +2,26 @@ import Colors from '@/constants/Colors'
 import { OrderStatus } from '@/types'
 import { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { useStatusChange } from '../actions'
 
-const statusList: OrderStatus[] = ['New', 'Cooking', 'Delivering', 'Delivered']
+const statusList: OrderStatus[] = ['new', 'cooking', 'delivering', 'delivered', 'cancelled']
 
-export function OrderStatusList({ status }: { status: OrderStatus }) {
+export function OrderStatusList({ orderId, status }: { orderId: string; status: OrderStatus }) {
   const [orderStatus, setOrderStatus] = useState(status)
+
+  function handleStatusChange(status: OrderStatus) {
+    setOrderStatus(status)
+    if (status === 'new') return
+
+    useStatusChange(orderId, status)
+  }
 
   return (
     <View style={{ gap: 4 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, flex: 1, justifyContent: 'space-around' }}>
         {statusList.map((status) => (
           <Pressable
-            onPress={() => setOrderStatus(status)}
+            onPress={() => handleStatusChange(status)}
             key={status}
             style={[
               styles.statusView,

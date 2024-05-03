@@ -1,10 +1,10 @@
-import orders from '@/api/data/orders'
 import NotFoundScreen from '@/app/+not-found'
 import { OrderInfo } from '@/components/order-info'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { FlatList, View } from 'react-native'
 import { OrderItem } from './_components/order-item'
 import { OrderStatusList } from './_components/order-status'
+import { useGetOrder } from './actions'
 
 export default function OrderScreen() {
   const { id } = useLocalSearchParams()
@@ -12,7 +12,7 @@ export default function OrderScreen() {
   if (!id) {
     return <NotFoundScreen />
   }
-  const order = orders.find((order) => order.id.toString() === id)
+  const { data: order } = useGetOrder(id as string)
 
   if (!order) {
     return <NotFoundScreen />
@@ -26,10 +26,10 @@ export default function OrderScreen() {
       />
       <FlatList
         contentContainerStyle={{ gap: 12 }}
-        data={order.order_items}
+        data={order.orderItems}
         renderItem={({ item }) => <OrderItem {...item} />}
         ListHeaderComponent={() => <OrderInfo order={order} />}
-        ListFooterComponent={() => <OrderStatusList status={order.status} />}
+        ListFooterComponent={() => <OrderStatusList orderId={id as string} status={order.status} />}
       />
     </View>
   )
